@@ -16,6 +16,10 @@
     "pusher",
     "cli"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RizkyRajitha/alohacli"
+  },
   "dependencies": {
     "@pusher/chatkit-client": "^1.13.2",
     "axios": "^0.19.0",
