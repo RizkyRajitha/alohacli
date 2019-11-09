@@ -20,7 +20,7 @@ const loader = ora({
 console.log(
   chalk.blue(
     figlet.textSync("ALOHA CLI CHAT", {
-      font: "cyberlarge"
+      font: "Cyberlarge"
     })
   )
 );
