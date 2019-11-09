@@ -1,6 +1,6 @@
 {
   "name": "aloha-cli-chat",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Pusher chatkit based cli chat application",
   "main": "app.js",
   "bin": {
@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "rajitha gunathilake",
-  "license": "ISC",
+  "license": "MIT",
   "keywords": [
     "chat application",
     "pusher",
