@@ -93,6 +93,9 @@ const menu = () => {
           } else if (awsners.action === "Add_user_to_room") {
             addusertoroom(data);
           } else if (awsners.action === "Exit") {
+
+            console.log( chalk.blue("ALOHA...") )
+
             process.exit();
           }
         })
@@ -138,12 +141,15 @@ try {
             {
               type: "input",
               message: "Email",
-              name: "email"
+              name: "email",
+              validate: validateEmail
             },
             {
               type: "password",
               message: "Password",
-              name: "pass"
+              name: "pass",
+              mask: "*",
+              validate: validatePassword
             }
           ])
 
@@ -180,18 +186,17 @@ try {
             {
               type: "password",
               message: "Password",
-              name: "pass"
+              name: "pass",
+              mask: "*"
             }
           ])
           .then(doc2 => {
-            // console.log(doc2);
             loader.start();
             axios
               .post(`${API}login`, doc2)
               .then(result => {
                 loader.stop();
                 if (result.data.msg === "success") {
-                  console.log(result.data);
                   console.log("Welcome " + result.data.name);
                   result.data.email = doc2.email;
                   fs.writeFileSync("./creds.json", JSON.stringify(result.data));
@@ -235,11 +240,12 @@ const myrooms = async user => {
   const avaiblerooms = await user.getJoinableRooms();
   const allromms = [...avaiblerooms, ...user.rooms];
 
-  // console.log(allromms);
+  console.log("");
 
   allromms.forEach((element, index) => {
     console.log("room " + index + " " + element.name);
   });
+  console.log("");
   loader.stop();
   menu();
 };
@@ -379,6 +385,25 @@ const addusertoroom = async user => {
     })
     .catch(err => console.log(err));
 };
+
+const validateEmail = async input => {
+  if (!validateEmailregex(input)) {
+    return "Enter an email";
+  }
+  return true;
+};
+
+const validatePassword = async input => {
+  if (String(input).length < 6) {
+    return "Password is too short";
+  }
+  return true;
+};
+
+function validateEmailregex(email) {
+  var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+}
 
 // const sendmsg = async (user, roomId) => {
 //   inquirer

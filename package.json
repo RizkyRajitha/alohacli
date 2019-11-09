@@ -4,7 +4,7 @@
   "description": "Pusher chatkit based cli chat application",
   "main": "app.js",
   "bin": {
-    "ascii-themes": "app.js"
+    "aloha-cli-chat": "app.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
