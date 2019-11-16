@@ -62,6 +62,7 @@ const menu = () => {
               "Join_room",
               "My_rooms",
               "Add_user_to_room",
+              "Logout",
               "Exit"
             ]
           }
@@ -94,9 +95,16 @@ const menu = () => {
             myrooms(data);
           } else if (awsners.action === "Add_user_to_room") {
             addusertoroom(data);
-          } else if (awsners.action === "Exit") {
-            console.log(chalk.blue("ALOHA..."));
+          } else if (awsners.action === "Logout") {
+            fs.unlink("./creds.json", err => {
+              if (!err) {
+                console.log(chalk.blue("\n Logging out.... \nALOHA...\n"));
+              }
+            });
 
+            process.exit();
+          } else if (awsners.action === "Exit") {
+            console.log(chalk.blue("\nALOHA...\n"));
             process.exit();
           }
         })
