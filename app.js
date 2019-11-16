@@ -1,3 +1,4 @@
+#! /usr/bin/env node
 var figlet = require("figlet");
 const inquirer = require("inquirer");
 const ora = require("ora");
@@ -33,11 +34,10 @@ makeCompatiblewithcommadline = () => {
 
 makeCompatiblewithcommadline();
 
-//
 const menu = () => {
   var jwt = JSON.parse(fs.readFileSync("./creds.json", { encoding: "utf8" }));
-  // console.log(jwt);
-  loader.start();
+  console.log("in menu");
+  // loader.start();
   const chatmanager = new ChatManager({
     instanceLocator: keys.pusherlocator,
     userId: jwt.email,
@@ -49,7 +49,7 @@ const menu = () => {
   chatmanager
     .connect()
     .then(data => {
-      loader.stop();
+      // loader.stop();
 
       inquirer
         .prompt([
@@ -67,13 +67,15 @@ const menu = () => {
           }
         ])
         .then(awsners => {
+          // console.log(awsners);
           if (awsners.action === "Create_room") {
             inquirer
               .prompt([
                 {
                   type: "input",
                   message: "Room name",
-                  name: "roomname"
+                  name: "roomname",
+                  validate: validateRoomname
                 },
                 {
                   type: "list",
@@ -93,19 +95,14 @@ const menu = () => {
           } else if (awsners.action === "Add_user_to_room") {
             addusertoroom(data);
           } else if (awsners.action === "Exit") {
-
-            console.log( chalk.blue("ALOHA...") )
+            console.log(chalk.blue("ALOHA..."));
 
             process.exit();
           }
         })
         .catch(err => {
-          // console.log(err);
+          console.log(err);
         });
-
-      // console.log(data);
-      //subscribe to a room from room list
-      // subsroom(data);
     })
     .catch(err => {
       console.log(err);
@@ -389,6 +386,13 @@ const addusertoroom = async user => {
 const validateEmail = async input => {
   if (!validateEmailregex(input)) {
     return "Enter an email";
+  }
+  return true;
+};
+
+const validateRoomname = async input => {
+  if (String(input).length < 3) {
+    return "Room name is too short";
   }
   return true;
 };
